@@ -1,0 +1,30 @@
+
+
+table {
+    width: min(1200px, 90%);
+    margin: 2rem auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    border-collapse: collapse;
+}
+
+table td {
+    font-size: 14px;
+}
+
+table thead th {
+    background-color: #2c3e50;
+    color: #fff;
+}
+
+table td,
+table th {
+    padding: 4px 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+table tr:nth-child(even) {
+    background-color: rgba(6, 53, 47, 0.062);
+    /* background-color: red; */
+}
