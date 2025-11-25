@@ -1,8 +1,8 @@
 
 
 table {
-    width: min(1200px, 90%);
-    margin: 2rem auto;
+    /* width: min(1200px, 90%);
+    margin: 0 auto; */
     border: 1px solid #ddd;
     border-radius: 8px;
     border-collapse: collapse;

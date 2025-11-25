@@ -19,7 +19,7 @@ export const COLUMNS_POST = (handleEdit, handleDelete) => [
     key: "action",
     title: "Action",
     render: (data) => (
-      <div onClick={(e) => e.stopPropagation()}>
+      <div onClick={(e) => e.stopPropagation()} style={{display: "flex", gap: '10px'}}>
         <button onClick={() => handleDelete(data.id)}>Delete</button>
         <button onClick={() => handleEdit(data.id)}>Edit</button>
       </div>

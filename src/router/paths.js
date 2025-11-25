@@ -10,5 +10,9 @@ export const PATHS = {
     ERRORS: {
         PAGE_NOT_FOUND: '/404',
         PAGE_NOT_COMPLETED: '/403'
+    },
+    ADMIN: {
+        ROOT: '/admin',
+        USERS: '/admin/users'
     }
 }
