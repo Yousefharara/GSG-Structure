@@ -1,53 +1,99 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import Table from "../Table";
 import { COLUMNS_POST } from "../../constant/post";
-import POSTS from "../../mock/Posts";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../router/paths";
+import axios from "axios";
+import { API_URL } from "../../config/api";
+import Container from "../Container";
 
-class PostsTable extends Component {
-  state = {
-    posts: [],
-    isLoading: true,
-  };
+const PostsTable = () => {
+  const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-  componentDidMount() {
-    this.setState({ posts: POSTS, isLoading: false });
-  }
+  useEffect(() => {
+    (async () => {
+      setIsLoading(true);
+      try {
+        const { data } = await axios.get(
+          `${API_URL}/posts`
+        );
+        setPosts(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    })();
+  }, []);
 
-  handleEditPost = (id) => {
+  const handleEditPost = (id) => {
     console.log("Edit Post : ", id);
-    this.setState({ editId: id });
+    navigate(PATHS.POST.EDIT.replace(':id', id))
   };
-
-  handleDeletePost = (id) => {
+  
+  const handleDeletePost = async (id) => {
     console.log("Delete Post : ", id);
+    try{
+      await axios.delete(`${API_URL}/posts/${id}`)
+      setPosts(posts.filter(post => post.id !== id))
+    }catch(err) {
+      setError(err.message)
+    }finally {
+      setIsLoading(false)
+    }
   };
-
-  handleViewPost = (post) => {
+  
+  const handleViewPost = (post) => {
     console.log(post);
-    this.setState({ postId: post.id });
+    navigate(PATHS.POST.VIEW.replace(':id', post.id))
   };
 
-  render() {
-    return (
-      <div>
-        <Table
-          columns={COLUMNS_POST(this.handleEditPost, this.handleDeletePost)}
-          data={this.state.posts}
-          isLoading={this.state.isLoading}
-          onRowClick={this.handleViewPost}
-        />
-        {this.state.postId && <Navigate to={`${this.state.postId}`} />}
-        {this.state.editId && (
-          <Navigate
-            to={PATHS.POST.EDIT.replace(":id", this.state.editId)}
-            replace
-          />
-        )}
-      </div>
-    );
-  }
-}
+  return (
+    <>
+      <button onClick={() => navigate(PATHS.POST.CREATE)}>Create Post</button>
+      <Table
+        columns={COLUMNS_POST(handleEditPost, handleDeletePost)}
+        data={posts}
+        isLoading={isLoading}
+        onRowClick={handleViewPost}
+      />
+    </>
+  );
+};
+
+// class PostsTable extends Component {
+//   componentDidMount() {
+//     this.setState({ posts: POSTS, isLoading: false });
+//   }
+
+//   handleEditPost = (id) => {
+//     console.log("Edit Post : ", id);
+//   };
+
+//   handleDeletePost = (id) => {
+//     console.log("Delete Post : ", id);
+//   };
+
+//   handleViewPost = (post) => {
+//     console.log(post);
+//     this.setState({ postId: post.id });
+//   };
+
+//   render() {
+//     return (
+//       <div>
+//         <Table
+//           columns={COLUMNS_POST(this.handleEditPost, this.handleDeletePost)}
+//           data={this.state.posts}
+//           isLoading={this.state.isLoading}
+//           onRowClick={this.handleViewPost}
+//         />
+//       </div>
+//     );
+//   }
+// }
 
 export default PostsTable;
