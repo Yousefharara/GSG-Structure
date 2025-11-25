@@ -1,48 +1,74 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import Container from "../../components/Container";
 import PostForm from "../../components/PostForm";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../router/paths";
 import axios from "axios";
+import { API_URL } from "../../config/api";
 
-class CreatePostPage extends Component {
+const CreatePostPage = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-    state = {
-        isLoading: false
-    }
-
-  handleCreatePost = async (body) => {
-    this.setState({ isLoading: true });
+  const handleCreatePost = async (body) => {
+    setIsLoading(true);
     try {
-      const res = await axios.post(
-        `https://jsonplaceholder.typicode.com/posts}`,
-        body
-      );
-      this.setState({
-        post: res.data,
-        isGoToListPage: true,
-      });
+      await axios.post(`${API_URL}/posts`, body);
+      console.log('body is ', body);
+      navigate(PATHS.POST.ROOT);
     } catch (err) {
-      this.setState({ err: err.message });
+      setError(err.message);
+      console.log('Error is ', error);
     } finally {
-      this.setState({ isLoading: false });
+      setIsLoading(false);
     }
   };
 
-  render() {
-    return (
-      <div>
-        <Container>
-          <p>Creating Post</p>
-          <PostForm
-            handleSubmit={this.handleCreatePost}
-            isLoading={this.state.isLoading}
-          />
-        </Container>
-        {this.state.isGoToListPage && <Navigate to={PATHS.POST.ROOT} replace />}
-      </div>
-    );
-  }
-}
+
+  return (
+    <div>
+      <Container>
+        <p>Creating Post</p>
+        <PostForm handleSubmit={handleCreatePost} isLoading={isLoading} />
+      </Container>
+    </div>
+  );
+};
+
+// class CreatePostPage extends Component {
+//   handleCreatePost = async (body) => {
+//     this.setState({ isLoading: true });
+//     try {
+//       const res = await axios.post(
+//         `https://jsonplaceholder.typicode.com/posts}`,
+//         body
+//       );
+//       this.setState({
+//         post: res.data,
+//         isGoToListPage: true,
+//       });
+//     } catch (err) {
+//       this.setState({ err: err.message });
+//     } finally {
+//       this.setState({ isLoading: false });
+//     }
+//   };
+// 
+//   render() {
+//     return (
+//       <div>
+//         <Container>
+//           <p>Creating Post</p>
+//           <PostForm
+//             handleSubmit={this.handleCreatePost}
+//             isLoading={this.state.isLoading}
+//           />
+//         </Container>
+//         {this.state.isGoToListPage && <Navigate to={PATHS.POST.ROOT} replace />}
+//       </div>
+//     );
+//   }
+// }
 
 export default CreatePostPage;
