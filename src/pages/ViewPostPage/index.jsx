@@ -8,10 +8,10 @@ const ViewPostPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { data, get, isLoading, error } = UseApi();
+  const { item, getById, isLoading, error } = UseApi(`${API_URL}/posts`);
 
   useEffect(() => {
-    get(`${API_URL}/posts/${id}`);
+    getById(id);
   }, [id]);
 
   if (error?.status === 404) {
@@ -19,15 +19,15 @@ const ViewPostPage = () => {
   } else {
     return (
       <div>
-        {console.log("Data From View Page ", data)}
+        {console.log("Data From View Page ", item)}
         {isLoading && <p>Loading ...</p>}
         {!isLoading && (
           <>
             <p>View Post Page !!</p>
-            <p>{data.title}</p>
-            <p>ID : {data.id}</p>
+            <p>{item.title}</p>
+            <p>ID : {item.id}</p>
             <button
-              onClick={() => navigate(PATHS.POST.EDIT.replace(":id", data.id))}
+              onClick={() => navigate(PATHS.POST.EDIT.replace(":id", item.id))}
             >
               Edit
             </button>

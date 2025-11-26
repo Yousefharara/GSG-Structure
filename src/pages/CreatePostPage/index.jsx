@@ -5,10 +5,10 @@ import { API_URL } from "../../config/api";
 import UseApi from "../../hooks/useApi";
 
 const CreatePostPage = () => {
-  const { isLoading, post } = UseApi();
+  const { isLoading, post } = UseApi(`${API_URL}/posts`);
 
   const handleCreatePost = async (body) => {
-    post(`${API_URL}/posts`, body, PATHS.POST.ROOT);
+    post(body, PATHS.POST.ROOT);
   };
 
   return (

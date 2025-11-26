@@ -42,6 +42,10 @@ const PostForm = ({ _post, handleSubmit, isLoading }) => {
       title: post.title,
       body: post.body,
     };
+    // ? handleCreatePost()
+  // ?const handleCreatePost = async (body) => {
+  // ?  post(`${API_URL}/posts`, body, PATHS.POST.ROOT);
+  // ?};
     handleSubmit(data);
   };
 

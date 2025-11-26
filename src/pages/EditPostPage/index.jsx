@@ -9,14 +9,14 @@ import UseApi from "../../hooks/useApi";
 const EditPostPage = () => {
   const { id } = useParams();
 
-  const { data, isLoading, error, get, patch } = UseApi();
+  const { data, isLoading, error, getById, patch } = UseApi(`${API_URL}/posts`);
 
   useEffect(() => {
-    get(`${API_URL}/posts/${id}`);
+    getById(id);
   }, [id]);
 
   const handleEditPost = async (body) => {
-    patch(`${API_URL}/posts/${id}`, body, PATHS.POST.ROOT);
+    patch(body, PATHS.POST.ROOT);
   };
 
   if (error?.status === 404) {
