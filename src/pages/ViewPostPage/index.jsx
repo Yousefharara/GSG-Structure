@@ -1,60 +1,40 @@
-import React, { Component, useEffect, useState } from "react";
-import WithParams from "../../components/WithParams";
-import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { PATHS } from "../../router/paths";
 import { API_URL } from "../../config/api";
+import UseApi from "../../hooks/useApi";
 
 const ViewPostPage = () => {
-  const [post, setPost] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const { data, get, isLoading, error } = UseApi();
+
   useEffect(() => {
-    (async () => {
-      try {
-        const { data } = await axios.get(`${API_URL}/posts/${id}`);
-        setPost(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    })();
+    get(`${API_URL}/posts/${id}`);
   }, [id]);
 
-  return (
-    <div>
-      {isLoading && <p>Loading ...</p>}
-      {!isLoading && (
-        <>
-          <p>View Post Page !!</p>
-          <p>{post.title}</p>
-          <p>ID : {post.id}</p>
-          <button
-            onClick={() => navigate(PATHS.POST.EDIT.replace(":id", post.id))}
-          >
-            Edit
-          </button>
-        </>
-      )}
-    </div>
-  );
+  if (error?.status === 404) {
+    return <Navigate to={PATHS.ERRORS.PAGE_NOT_FOUND} replace={true} />;
+  } else {
+    return (
+      <div>
+        {console.log("Data From View Page ", data)}
+        {isLoading && <p>Loading ...</p>}
+        {!isLoading && (
+          <>
+            <p>View Post Page !!</p>
+            <p>{data.title}</p>
+            <p>ID : {data.id}</p>
+            <button
+              onClick={() => navigate(PATHS.POST.EDIT.replace(":id", data.id))}
+            >
+              Edit
+            </button>
+          </>
+        )}
+      </div>
+    );
+  }
 };
 export default ViewPostPage;
-
-// class ViewPostPage extends Component {
-//   render() {
-//     const { id } = this.props.params;
-//     return (
-//       <div>
-//         <p>View Post Page !!</p>
-//         <p>ID : {id}</p>
-//       </div>
-//     );
-//   }
-// }
-
-// export default WithParams(ViewPostPage);
