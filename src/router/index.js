@@ -1,19 +1,17 @@
 import { useRoutes } from "react-router-dom";
-import { adminPages, routes, userPages } from "./routes";
+import { routes } from "./routes";
 import { useState } from "react";
 
+// ? New Version Functional Component
+
 const Router = () => {
-  const [role, setRole] = useState("user");
+  const [role] = useState("user");
 
-  const handleRole = () => {
-    // if (role === "user") return [...routes, ...userPages];
-    // if (role === "admin") return [...adminPages(role), ...routes, ...userPages ];
-    return [...routes, ...userPages, ...adminPages(role)];
-  };
-
-  const router = useRoutes(handleRole());
+  const router = useRoutes(routes(role));
 
   return router;
+
+  // ! Old version Class Component
 
   // return (
   //   <Routes>
