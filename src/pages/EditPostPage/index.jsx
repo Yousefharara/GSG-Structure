@@ -29,13 +29,11 @@ const EditPostPage = () => {
         ) : (
           <Container>
             <p>Editing Post</p>
-            {console.log("Before Form")}
             <PostForm
               _post={data}
               handleSubmit={handleEditPost}
               isLoading={isLoading}
             />
-            {console.log("After Form")}
           </Container>
         )}
       </div>

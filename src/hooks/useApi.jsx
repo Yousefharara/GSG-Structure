@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const UseApi = (url) => {
   const [data, setData] = useState([]);
-  const [item, setItem] = useState('');
+  const [item, setItem] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState("");
@@ -26,7 +26,7 @@ const UseApi = (url) => {
     try {
       const res = await axios.get(`${url}/${id}`, { ...config });
       setIsLoading(true);
-      setItem(res.data)
+      setItem(res.data);
     } catch (err) {
       setError(err);
     } finally {
@@ -90,7 +90,7 @@ const UseApi = (url) => {
     post,
     patch,
     del,
-    getById
+    getById,
   };
 };
 

@@ -1,6 +1,4 @@
-import React, { Component } from "react";
-import { Navigate } from "react-router-dom";
-import { PATHS } from "../../router/paths";
+import { Component } from "react";
 import "./style.css";
 
 class Table extends Component {

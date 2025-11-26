@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./style.css";
 
 const inputsArray = [
@@ -43,9 +43,9 @@ const PostForm = ({ _post, handleSubmit, isLoading }) => {
       body: post.body,
     };
     // ? handleCreatePost()
-  // ?const handleCreatePost = async (body) => {
-  // ?  post(`${API_URL}/posts`, body, PATHS.POST.ROOT);
-  // ?};
+    // ?const handleCreatePost = async (body) => {
+    // ?  post(`${API_URL}/posts`, body, PATHS.POST.ROOT);
+    // ?};
     handleSubmit(data);
   };
 
