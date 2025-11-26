@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const UseApi = (url) => {
+const UseApi = (url, config) => {
   const [data, setData] = useState([]);
   const [item, setItem] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -10,9 +10,9 @@ const UseApi = (url) => {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
-  const get = async (config) => {
+  const get = async (getConfig) => {
     try {
-      const res = await axios.get(url, { ...config });
+      const res = await axios.get(url, { ...getConfig, ...config });
       setIsLoading(true);
       setData(res.data);
     } catch (err) {
@@ -22,7 +22,7 @@ const UseApi = (url) => {
     }
   };
 
-  const getById = async (id, config) => {
+  const getById = async (id) => {
     try {
       const res = await axios.get(`${url}/${id}`, { ...config });
       setIsLoading(true);
@@ -34,7 +34,7 @@ const UseApi = (url) => {
     }
   };
 
-  const post = async (body, path, config) => {
+  const post = async (body, path) => {
     try {
       const res = await axios.post(url, body, config);
       setIsLoading(true);
@@ -50,7 +50,7 @@ const UseApi = (url) => {
     }
   };
 
-  const patch = async (body, path, config) => {
+  const patch = async (body, path) => {
     try {
       const res = await axios.patch(url, body, config);
       setIsLoading(true);
@@ -68,7 +68,7 @@ const UseApi = (url) => {
     }
   };
 
-  const del = async (id, config) => {
+  const del = async (id) => {
     try {
       await axios.delete(`${url}/${id}`, config);
       setIsLoading(true);
