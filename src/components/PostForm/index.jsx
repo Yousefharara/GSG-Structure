@@ -1,6 +1,5 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
-import { title } from "framer-motion/client";
 
 const inputsArray = [
   {
@@ -18,11 +17,7 @@ const inputsArray = [
 ];
 
 const PostForm = ({ _post, handleSubmit, isLoading }) => {
-
-  const [post, setPost] = useState({
-    title: '',
-    body: ''
-  });
+  const [post, setPost] = useState({});
   useEffect(() => {
     if (_post) {
       setPost({
@@ -36,7 +31,7 @@ const PostForm = ({ _post, handleSubmit, isLoading }) => {
     const { name, value } = e.target;
     setPost({
       ...post,
-      [name]: value, 
+      [name]: value,
     });
     console.log(post);
   };
@@ -58,7 +53,7 @@ const PostForm = ({ _post, handleSubmit, isLoading }) => {
           {input.type === "textarea" ? (
             <textarea
               name={input.name}
-              value={post[input.id]}
+              value={post[input.id] || ""}
               id={input.id}
               rows={5}
               onChange={handleOnChangeInputs}
@@ -67,7 +62,7 @@ const PostForm = ({ _post, handleSubmit, isLoading }) => {
             <input
               name={input.name}
               id={input.id}
-              value={post[input.id]}
+              value={post[input.id] || ""}
               onChange={handleOnChangeInputs}
             />
           )}
@@ -77,71 +72,5 @@ const PostForm = ({ _post, handleSubmit, isLoading }) => {
     </form>
   );
 };
-
-// class PostForm extends Component {
-//   state = {
-//     title: "",
-//     body: "",
-//     isGetFirstTime: false,
-//   };
-
-//   static getDerivedStateFromProps(props, state) {
-//     if (props.post && !state.isGetFirstTime) {
-//       return {
-//         title: props.post.title,
-//         body: props.post.body,
-//         isGetFirstTime: true,
-//       };
-//     }
-//     return null;
-//   }
-
-//   handleOnChangeInputs = (e) => {
-//     const { name, value } = e.target;
-//     this.setState({
-//       [name]: value,
-//     });
-//   };
-
-//   handleOnSubmit = (e) => {
-//     e.preventDefault();
-//     const data = {
-//       title: this.state.title,
-//       body: this.state.body,
-//     };
-//     this.props.handleSubmit(data);
-//   };
-
-//   render() {
-//     return (
-//       <form onSubmit={this.handleOnSubmit}>
-//         {inputsArray.map((input) => (
-//           <div>
-//             <label htmlFor={input.id}>{input.label}</label>
-//             {input.type === "textarea" ? (
-//               <textarea
-//                 name={input.name}
-//                 value={this.state[input.id]}
-//                 id={input.id}
-//                 rows={5}
-//                 onChange={this.handleOnChangeInputs}
-//               />
-//             ) : (
-//               <input
-//                 name={input.name}
-//                 id={input.id}
-//                 value={this.state[input.id]}
-//                 onChange={this.handleOnChangeInputs}
-//               />
-//             )}
-//           </div>
-//         ))}
-//         <button type="submit">
-//           {this.props.isLoading ? "Loading ..." : "Submit"}
-//         </button>
-//       </form>
-//     );
-//   }
-// }
 
 export default PostForm;
